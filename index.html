@@ -1,0 +1,217 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   SPA with Header and Footer and Tentang Page
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   html, body {
+     overflow: hidden;
+     height: 100%;
+   }
+   #mainContent {
+     -webkit-overflow-scrolling: touch;
+     overflow-y: scroll;
+     scrollbar-width: none; /* Firefox */
+     -ms-overflow-style: none;  /* IE and Edge */
+     height: calc(100vh - 56px - 48px);
+   }
+   #mainContent::-webkit-scrollbar {
+     display: none; /* Chrome, Safari and Opera */
+   }
+   iframe {
+     width: 100%;
+     height: 100%;
+     border: none;
+     overflow: hidden;
+   }
+  </style>
+ </head>
+ <body class="flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="flex items-center justify-between bg-[#105c54] px-4 py-3 h-14">
+   <div class="flex items-center space-x-2">
+    <img alt="Company logo, green background with white text logo" class="w-10 h-10 object-contain" height="40" src="https://storage.googleapis.com/a1aa/image/09055e1b-755b-4c52-b0dc-5fba6ea4da78.jpg" width="40"/>
+   </div>
+   <div class="relative">
+    <button aria-expanded="false" aria-haspopup="true" aria-label="Open menu" class="text-white text-2xl focus:outline-none" id="menuButton">
+     <i class="fas fa-ellipsis-v">
+     </i>
+    </button>
+    <div aria-labelledby="menuButton" aria-orientation="vertical" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-20" id="menuOptions" role="menu">
+     <button class="block w-full text-left px-4 py-2 text-black hover:bg-gray-200 focus:outline-none" id="aboutButton" role="menuitem" type="button">
+      Tentang
+     </button>
+    </div>
+   </div>
+  </header>
+  <!-- Main content -->
+  <main class="flex-grow overflow-hidden" id="mainContent">
+   <iframe class="w-full h-full" id="contentFrame" src="home.html" title="Content frame showing pages">
+   </iframe>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-[#105c54] text-white flex justify-around py-3 text-sm h-12">
+   <button aria-label="Beranda" class="flex flex-col items-center space-y-1 focus:outline-none" id="btnHome" type="button">
+    <i class="fas fa-home text-white text-xl">
+    </i>
+    <span>
+     Beranda
+    </span>
+   </button>
+   <button aria-label="Informasi" class="flex flex-col items-center space-y-1 focus:outline-none" id="btnInformasi" type="button">
+    <i class="fas fa-info-circle text-white text-xl">
+    </i>
+    <span>
+     Informasi
+    </span>
+   </button>
+   <button aria-label="Status" class="flex flex-col items-center space-y-1 focus:outline-none" id="btnStatus" type="button">
+    <i class="fas fa-tachometer-alt text-white text-xl">
+    </i>
+    <span>
+     Status
+    </span>
+   </button>
+  </footer>
+  <script>
+   const menuButton = document.getElementById("menuButton");
+    const menuOptions = document.getElementById("menuOptions");
+    const aboutButton = document.getElementById("aboutButton");
+    const contentFrame = document.getElementById("contentFrame");
+    const mainContent = document.getElementById("mainContent");
+
+    menuButton.addEventListener("click", () => {
+      const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+      if (isExpanded) {
+        menuOptions.classList.add("hidden");
+        menuButton.setAttribute("aria-expanded", "false");
+      } else {
+        menuOptions.classList.remove("hidden");
+        menuButton.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    // Close menu if clicked outside
+    document.addEventListener("click", (e) => {
+      if (
+        !menuButton.contains(e.target) &&
+        !menuOptions.contains(e.target)
+      ) {
+        menuOptions.classList.add("hidden");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    aboutButton.addEventListener("click", () => {
+      menuOptions.classList.add("hidden");
+      menuButton.setAttribute("aria-expanded", "false");
+      if(contentFrame){
+        contentFrame.style.display = "none";
+      }
+      mainContent.innerHTML = `
+      <div class="p-6 max-w-4xl mx-auto text-black overflow-y-auto" style="height: 100%;">
+        <h1 class="text-2xl font-bold mb-4 flex items-center space-x-2"><span>📄</span><span>Privacy Policy - GMI</span></h1>
+        <p class="mb-2 font-semibold">Terakhir diperbarui: <span>03 Juni 2025</span></p>
+        <p class="mb-4">Aplikasi GMI (GMI News & Info) menghargai privasi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda saat menggunakan aplikasi ini.</p>
+        <h2 class="text-xl font-semibold mb-2">1. Informasi yang Dikumpulkan</h2>
+        <p class="mb-2">Kami tidak mengumpulkan data pribadi sensitif. Namun, aplikasi dapat mengumpulkan informasi teknis non-pribadi seperti:</p>
+        <ul class="list-disc list-inside mb-4">
+          <li>Tipe perangkat dan versi OS</li>
+          <li>Informasi crash/error untuk peningkatan layanan</li>
+        </ul>
+        <h2 class="text-xl font-semibold mb-2">2. Penggunaan Informasi</h2>
+        <p class="mb-4">Informasi non-pribadi digunakan untuk:</p>
+        <ul class="list-disc list-inside mb-4">
+          <li>Menyediakan dan meningkatkan konten</li>
+          <li>Memperbaiki bug dan stabilitas aplikasi</li>
+        </ul>
+        <h2 class="text-xl font-semibold mb-2">3. Penyimpanan dan Keamanan</h2>
+        <p class="mb-4">Kami menjaga informasi Anda secara lokal dan tidak menyimpan data pribadi pengguna di server eksternal.</p>
+        <h2 class="text-xl font-semibold mb-2">4. Hak Pengguna</h2>
+        <p class="mb-4">Anda dapat:</p>
+        <ul class="list-disc list-inside mb-4">
+          <li>Menghapus aplikasi kapan saja</li>
+          <li>Menghubungi kami untuk pertanyaan seputar privasi</li>
+        </ul>
+        <h2 class="text-xl font-semibold mb-2">5. Perubahan Kebijakan</h2>
+        <p class="mb-4">Kami dapat memperbarui kebijakan ini sewaktu-waktu. Perubahan akan ditampilkan di halaman ini.</p>
+        <p class="mb-8">Kontak kami: <a href="mailto:gmiofficial21@gmail.com" class="text-blue-600 underline">gmiofficial21@gmail.com</a></p>
+
+        <h1 class="text-2xl font-bold mb-4 flex items-center space-x-2"><span>📄</span><span>Terms of Service (ToS) - GMI</span></h1>
+        <p class="mb-2 font-semibold">Terakhir diperbarui: <span>03 Juni 2025</span></p>
+        <p class="mb-4">Dengan menggunakan aplikasi GMI, Anda menyetujui Ketentuan Layanan berikut ini:</p>
+        <h2 class="text-xl font-semibold mb-2">1. Penggunaan Aplikasi</h2>
+        <ul class="list-disc list-inside mb-4">
+          <li>Aplikasi ini menyediakan informasi dan berita umum untuk keperluan non-komersial.</li>
+          <li>Dilarang menggunakan aplikasi untuk menyebarkan hoaks, ujaran kebencian, atau pelanggaran hukum.</li>
+        </ul>
+        <h2 class="text-xl font-semibold mb-2">2. Konten dan Hak Cipta</h2>
+        <p class="mb-4">Semua konten dalam aplikasi bersifat informatif. Hak cipta milik GMI dan/atau sumber resmi lainnya.</p>
+        <h2 class="text-xl font-semibold mb-2">3. Tanggung Jawab</h2>
+        <p class="mb-4">GMI tidak bertanggung jawab atas kesalahan atau keterlambatan informasi. Anda menggunakan aplikasi ini atas risiko sendiri.</p>
+        <h2 class="text-xl font-semibold mb-2">4. Perubahan Layanan</h2>
+        <p class="mb-4">Kami berhak mengubah, menambahkan, atau menghentikan layanan kapan saja.</p>
+        <h2 class="text-xl font-semibold mb-2">5. Hukum yang Berlaku</h2>
+        <p class="mb-8">Ketentuan ini diatur berdasarkan hukum yang berlaku di Indonesia.</p>
+
+        <h1 class="text-2xl font-bold mb-4 flex items-center space-x-2"><span>📄</span><span>End-User License Agreement (EULA) - GMI</span></h1>
+        <p class="mb-2 font-semibold">Terakhir diperbarui: <span>03 Juni 2025</span></p>
+        <p class="mb-4">Ini adalah perjanjian lisensi antara pengguna dan pengembang aplikasi GMI.</p>
+        <h2 class="text-xl font-semibold mb-2">1. Lisensi Penggunaan</h2>
+        <p class="mb-4">Kami memberikan lisensi non-eksklusif, tidak dapat dipindahtangankan, untuk menggunakan aplikasi ini di perangkat pribadi Anda.</p>
+        <h2 class="text-xl font-semibold mb-2">2. Batasan</h2>
+        <ul class="list-disc list-inside mb-4">
+          <li>Anda tidak boleh menjual, menyewakan, membajak, atau mendekompilasi aplikasi ini.</li>
+          <li>Anda tidak boleh menggunakan aplikasi untuk tujuan ilegal.</li>
+        </ul>
+        <h2 class="text-xl font-semibold mb-2">3. Kepemilikan</h2>
+        <p class="mb-4">Hak cipta dan semua hak kekayaan intelektual tetap menjadi milik pengembang GMI.</p>
+        <h2 class="text-xl font-semibold mb-2">4. Pembaruan</h2>
+        <p class="mb-4">Kami dapat menyediakan pembaruan atau perbaikan. Anda disarankan menggunakan versi terbaru.</p>
+        <h2 class="text-xl font-semibold mb-2">5. Penolakan Jaminan</h2>
+        <p class="mb-4">Aplikasi disediakan “sebagaimana adanya”. Kami tidak menjamin bahwa aplikasi akan selalu bebas dari kesalahan.</p>
+        <h2 class="text-xl font-semibold mb-2">6. Hukum yang Berlaku</h2>
+        <p class="mb-8">Perjanjian ini tunduk pada hukum yang berlaku di Indonesia.</p>
+
+        <h1 class="text-2xl font-bold mb-4 flex items-center space-x-2"><span>📧</span><span>Kontak Developer</span></h1>
+        <p class="mb-1">Email: <a href="mailto:gmiofficial21@gmail.com" class="text-blue-600 underline">gmiofficial21@gmail.com</a></p>
+        <p class="mb-1">Nama Developer: GMI Official</p>
+        <p class="mb-1">Jenis aplikasi: Aplikasi berita dan informasi</p>
+        <p class="mb-1">Negara: Indonesia</p>
+      </div>
+      `;
+    });
+
+    // Footer buttons to load pages in iframe and hide Tentang content if visible
+    document.getElementById("btnHome").addEventListener("click", () => {
+      if(contentFrame){
+        contentFrame.style.display = "block";
+        contentFrame.src = "home.html";
+      }
+      mainContent.innerHTML = '';
+      mainContent.appendChild(contentFrame);
+    });
+    document.getElementById("btnInformasi").addEventListener("click", () => {
+      if(contentFrame){
+        contentFrame.style.display = "block";
+        contentFrame.src = "informasi.html";
+      }
+      mainContent.innerHTML = '';
+      mainContent.appendChild(contentFrame);
+    });
+    document.getElementById("btnStatus").addEventListener("click", () => {
+      if(contentFrame){
+        contentFrame.style.display = "block";
+        contentFrame.src = "status.html";
+      }
+      mainContent.innerHTML = '';
+      mainContent.appendChild(contentFrame);
+    });
+  </script>
+ </body>
+</html>
