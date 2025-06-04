@@ -1,122 +1,172 @@
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Post Pelatihan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBggKVSzDyI-meBSL3BMjA736Ss-j_My0E",
-      authDomain: "gmi-enterprise23.firebaseapp.com",
-      projectId: "gmi-enterprise23",
-      storageBucket: "gmi-enterprise23.firebasestorage.app",
-      messagingSenderId: "974090028804",
-      appId: "1:974090028804:web:43ae563ffd9433463c7251",
-      measurementId: "G-S27YB5Z8PR"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
-</head>
-<body class="bg-gray-50 min-h-screen p-4 flex flex-col items-center">
-  <div class="w-full max-w-lg bg-white rounded-lg shadow-md p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Posting Pelatihan Baru</h1>
-    <form id="trainingForm" class="space-y-5" autocomplete="off" novalidate>
-      <div>
-        <label for="imageInput" class="block mb-1 font-semibold text-gray-700">Upload Gambar Pelatihan</label>
-        <input type="file" id="imageInput" accept="image/*" class="block w-full text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-      </div>
-      <div>
-        <label for="judul" class="block mb-1 font-semibold text-gray-700">Judul</label>
-        <input type="text" id="judul" placeholder="Judul Pelatihan" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-      </div>
-      <div>
-        <label for="deskripsi" class="block mb-1 font-semibold text-gray-700">Deskripsi</label>
-        <textarea id="deskripsi" rows="3" placeholder="Deskripsi Pelatihan" class="w-full border border-gray-300 rounded-md p-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
-      </div>
-      <div>
-        <label for="harga" class="block mb-1 font-semibold text-gray-700">Harga / Pricelist</label>
-        <input type="text" id="harga" placeholder="Harga Pelatihan" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-      </div>
-      <div>
-        <label for="copywriting" class="block mb-1 font-semibold text-gray-700">Copywriting</label>
-        <textarea id="copywriting" rows="3" placeholder="Copywriting untuk promosi" class="w-full border border-gray-300 rounded-md p-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
-      </div>
-      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors duration-200 flex justify-center items-center gap-2">
-        <i class="fas fa-paper-plane"></i> Posting
-      </button>
-    </form>
-  </div>
-
-  <script>
-    const form = document.getElementById('trainingForm');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const fileInput = document.getElementById('imageInput');
-      if (!fileInput.files.length) {
-        alert('Mohon pilih gambar pelatihan.');
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Post Pelatihan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
       }
-      const file = fileInput.files[0];
-      const judul = document.getElementById('judul').value.trim();
-      const deskripsi = document.getElementById('deskripsi').value.trim();
-      const harga = document.getElementById('harga').value.trim();
-      const copywriting = document.getElementById('copywriting').value.trim();
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen p-4 flex flex-col items-center">
+    <div class="w-full max-w-lg bg-white rounded-lg shadow-md p-6">
+      <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">
+        Posting Pelatihan Baru
+      </h1>
+      <form id="trainingForm" class="space-y-5" autocomplete="off" novalidate>
+        <div>
+          <label for="imageInput" class="block mb-1 font-semibold text-gray-700"
+            >Upload Gambar Pelatihan</label
+          >
+          <input
+            type="file"
+            id="imageInput"
+            accept="image/*"
+            class="block w-full text-gray-700 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="judul" class="block mb-1 font-semibold text-gray-700"
+            >Judul</label
+          >
+          <input
+            type="text"
+            id="judul"
+            placeholder="Judul Pelatihan"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="deskripsi" class="block mb-1 font-semibold text-gray-700"
+            >Deskripsi</label
+          >
+          <textarea
+            id="deskripsi"
+            rows="3"
+            placeholder="Deskripsi Pelatihan"
+            class="w-full border border-gray-300 rounded-md p-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          ></textarea>
+        </div>
+        <div>
+          <label for="harga" class="block mb-1 font-semibold text-gray-700"
+            >Harga / Pricelist</label
+          >
+          <input
+            type="text"
+            id="harga"
+            placeholder="Harga Pelatihan"
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label
+            for="copywriting"
+            class="block mb-1 font-semibold text-gray-700"
+            >Copywriting</label
+          >
+          <textarea
+            id="copywriting"
+            rows="3"
+            placeholder="Copywriting untuk promosi"
+            class="w-full border border-gray-300 rounded-md p-2 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          ></textarea>
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors duration-200 flex justify-center items-center gap-2"
+        >
+          <i class="fas fa-paper-plane"></i> Posting
+        </button>
+      </form>
+    </div>
 
-      if (!judul || !deskripsi || !harga || !copywriting) {
-        alert('Mohon lengkapi semua field.');
-        return;
-      }
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBggKVSzDyI-meBSL3BMjA736Ss-j_My0E",
+        authDomain: "gmi-enterprise23.firebaseapp.com",
+        projectId: "gmi-enterprise23",
+        storageBucket: "gmi-enterprise23.appspot.com", // <== diperbaiki
+        messagingSenderId: "974090028804",
+        appId: "1:974090028804:web:43ae563ffd9433463c7251",
+        measurementId: "G-S27YB5Z8PR",
+      };
 
-      try {
-        // Upload gambar ke Imgur
-        const formData = new FormData();
-        formData.append('image', file);
+      const form = document.getElementById("trainingForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-        const res = await fetch('https://api.imgur.com/3/image', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Client-ID 0f3d0dc555fdb38',
-          },
-          body: formData,
-        });
+        const fileInput = document.getElementById("imageInput");
+        if (!fileInput.files.length) {
+          alert("Mohon pilih gambar pelatihan.");
+          return;
+        }
+        const file = fileInput.files[0];
+        const judul = document.getElementById("judul").value.trim();
+        const deskripsi = document.getElementById("deskripsi").value.trim();
+        const harga = document.getElementById("harga").value.trim();
+        const copywriting = document.getElementById("copywriting").value.trim();
 
-        if (!res.ok) {
-          throw new Error('Gagal mengupload gambar ke Imgur');
+        if (!judul || !deskripsi || !harga || !copywriting) {
+          alert("Mohon lengkapi semua field.");
+          return;
         }
 
-        const imgur = await res.json();
-        const imageUrl = imgur.data.link;
+        try {
+          // Upload gambar ke Imgur
+          const formData = new FormData();
+          formData.append("image", file);
 
-        // Simpan ke Firestore
-        const doc = {
-          judul,
-          deskripsi,
-          harga,
-          copywriting,
-          imageUrl,
-          createdAt: new Date().toISOString(),
-        };
+          const res = await fetch("https://api.imgur.com/3/image", {
+            method: "POST",
+            headers: {
+              Authorization: "Client-ID 0f3d0dc555fdb38",
+            },
+            body: formData,
+          });
 
-        const db = firebase.firestore();
-        await db.collection('trainings').add(doc);
+          if (!res.ok) {
+            throw new Error("Gagal mengupload gambar ke Imgur");
+          }
 
-        alert('Pelatihan berhasil diposting!');
-        form.reset();
-      } catch (error) {
-        alert('Terjadi kesalahan: ' + error.message);
-      }
-    });
-  </script>
-</body>
+          const imgur = await res.json();
+          const imageUrl = imgur.data.link;
+
+          // Simpan ke Firestore
+          const doc = {
+            judul,
+            deskripsi,
+            harga,
+            copywriting,
+            imageUrl,
+            createdAt: new Date().toISOString(),
+          };
+
+          const db = firebase.firestore();
+          await db.collection("trainings").add(doc);
+
+          alert("Pelatihan berhasil diposting!");
+          form.reset();
+        } catch (error) {
+          alert("Terjadi kesalahan: " + error.message);
+        }
+      });
+    </script>
+  </body>
 </html>
